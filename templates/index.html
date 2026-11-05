@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Luna Argus - Live Parking Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body data-stale="{{ stale_after }}">
+  <header>
+    <h1>Luna Argus</h1>
+    <p>Smart parking monitor. Virtual sensors report every bay to this dashboard.</p>
+  </header>
+  <main>
+    <div id="banner" class="banner" hidden></div>
+    <section class="stats" aria-label="Summary">
+      <div><b id="total">-</b><span>Total bays</span></div>
+      <div class="ok"><b id="free">-</b><span>Available</span></div>
+      <div class="bad"><b id="occ">-</b><span>Occupied</span></div>
+      <div><b id="util">-</b><span>Occupancy rate</span></div>
+    </section>
+    <div class="meter" aria-hidden="true"><div id="meterFill"></div></div>
+    <div class="controls">
+      <button id="pause">Pause updates</button>
+      <button id="reset">Reset all bays</button>
+      <a class="btn" href="/api/export.csv">Download event log (CSV)</a>
+      <label>Refresh every
+        <select id="interval">
+          <option value="1000">1 s</option>
+          <option value="2000" selected>2 s</option>
+          <option value="5000">5 s</option>
+        </select>
+      </label>
+      <label>Zone
+        <select id="zone">
+          <option value="">All</option><option>A</option><option>B</option><option>C</option>
+        </select>
+      </label>
+    </div>
+    <p id="status" class="status">Connecting...</p>
+    <section id="lot" class="lot" aria-label="Parking bays"></section>
+    <p class="hint">Select a bay to flip its sensor by hand and see its recent history.</p>
+    <aside id="detail" class="detail" hidden></aside>
+    <div class="cols">
+      <section>
+        <h2>Recent sensor events</h2>
+        <ul id="log" class="log"><li>Waiting for sensor events...</li></ul>
+      </section>
+      <section>
+        <h2>Arrivals by hour (UTC)</h2>
+        <div id="chart" class="chart" aria-label="Arrivals per hour"></div>
+      </section>
+    </div>
+  </main>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
